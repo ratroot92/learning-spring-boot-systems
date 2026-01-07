@@ -1,6 +1,5 @@
 package com.evergreen.EvergreenServer.security.dtos;
 
-import com.evergreen.EvergreenServer.models.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,7 @@ public class ProtectedUserDto {
     private Integer id;
     private String email;
     private String username;
-    private String phone;
+    private String phoneNumber;
     private Boolean isActive;
 
 

@@ -1,17 +1,24 @@
-package com.evergreen.EvergreenServer.dtos.requests;
+    package com.evergreen.EvergreenServer.dtos.requests;
 
-import lombok.*;
-
-@Data
-@Setter
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
-public class RegisterUserRequestDto {
-
-    public String email;
-    public String password;
-    public String confirmPassword;
+    import jakarta.validation.constraints.Email;
+    import jakarta.validation.constraints.NotBlank;
+    import jakarta.validation.constraints.NotNull;
+    import lombok.*;
 
 
-}
+    @Data
+    @Setter
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public class RegisterUserRequestDto {
+
+        @NotNull
+        @Email
+        private String email;
+        @NotBlank
+        private String password;
+        @NotBlank
+        private String confirmPassword;
+
+    }

@@ -1,24 +1,23 @@
 package com.evergreen.EvergreenServer.models;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.evergreen.EvergreenServer.security.dtos.ProtectedUserDto;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import lombok.NoArgsConstructor;
 
-import java.util.Collection;
-import java.util.List;
+
 
 @Table(name = "users")
 @Entity(name = "users")
 @Data
-public class AppUser implements UserDetails {
+@AllArgsConstructor(staticName = "build")
+@NoArgsConstructor
+public class AppUser  {
 
     @Id()
-    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "name",nullable = true)
@@ -36,18 +35,19 @@ public class AppUser implements UserDetails {
     @Column(name="password",nullable = true)
     private String password;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+    @Column(name="is_active",nullable = true)
+    private Boolean isActive;
+
+    public static  ProtectedUserDto getProtectedUser(AppUser appUser){
+        ProtectedUserDto protectedUserDto=new ProtectedUserDto();
+        protectedUserDto.setId(appUser.getId());
+        protectedUserDto.setEmail(appUser.getEmail());
+        protectedUserDto.setUsername(appUser.getUsername());
+        protectedUserDto.setPhoneNumber(appUser.getPhoneNumber());
+        protectedUserDto.setIsActive(appUser.getIsActive());
+        return protectedUserDto;
+
     }
 
-    @Override
-    public String getPassword() {
-        return this.password;
-    }
 
-    @Override
-    public String getUsername() {
-        return this.username;
-    }
 }

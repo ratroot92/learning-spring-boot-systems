@@ -6,7 +6,8 @@ CREATE TABLE users (
     email VARCHAR(255) UNIQUE,
     username VARCHAR(255) UNIQUE,
     phone VARCHAR(255) UNIQUE,
-    password VARCHAR(255)
+    password VARCHAR(255),
+    is_active BOOLEAN
 
 --    created_at TIMESTAMP NOT NULL DEFAULT now()
 );

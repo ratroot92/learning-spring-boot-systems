@@ -1,12 +1,18 @@
 package com.evergreen.EvergreenServer.controllers;
-import com.evergreen.EvergreenServer.dtos.requests.RegisterUserRequestDto;
-import com.evergreen.EvergreenServer.dtos.requests.RegisterUserResponseDto;
-import com.evergreen.EvergreenServer.models.AppUser;
-import com.evergreen.EvergreenServer.services.AppUserService;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import com.evergreen.EvergreenServer.dtos.requests.RegisterUserRequestDto;
+import com.evergreen.EvergreenServer.dtos.requests.RegisterUserResponseDto;
+import com.evergreen.EvergreenServer.dtos.requests.UserLoginRequestDto;
+import com.evergreen.EvergreenServer.dtos.responses.UserLoginResponseDto;
+import com.evergreen.EvergreenServer.services.AppUserService;
+import jakarta.validation.Valid;
 
 
 @RestController
@@ -15,26 +21,25 @@ public class AuthController {
 
     private final AppUserService appUserService;
 
-    public AuthController(AppUserService appUserService){
-        this.appUserService=appUserService;
+    public AuthController(AppUserService appUserService) {
+        this.appUserService = appUserService;
     }
 
     @PostMapping("login")
-    public String login(){
-        return "Hy";
+    public ResponseEntity<UserLoginResponseDto> login(@RequestBody @Valid UserLoginRequestDto request) {
+        UserLoginResponseDto response = this.appUserService.loginUser(request);
+        return new ResponseEntity<UserLoginResponseDto>(response, HttpStatus.OK);
     }
 
     @PostMapping("register")
-    public ResponseEntity<RegisterUserResponseDto> register(@RequestBody RegisterUserRequestDto registerUserRequestDto) throws Exception {
-        AppUser appUser= this.appUserService.registerUser(registerUserRequestDto);
-        RegisterUserResponseDto registerUserResponseDto=new RegisterUserResponseDto();
-        registerUserResponseDto.setUser(appUser);
-       return new ResponseEntity<RegisterUserResponseDto>(registerUserResponseDto, HttpStatus.OK);
+    public ResponseEntity<RegisterUserResponseDto> register(@RequestBody @Valid RegisterUserRequestDto request) {
+        RegisterUserResponseDto response = this.appUserService.registerUser(request);
+        return new ResponseEntity<RegisterUserResponseDto>(response, HttpStatus.OK);
 
     }
 
     @GetMapping("/me")
-    public String me(){
+    public String me() {
         return "Me";
     }
 }
